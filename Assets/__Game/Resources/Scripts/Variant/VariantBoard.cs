@@ -168,6 +168,14 @@ namespace Assets.__Game.Resources.Scripts.Variant
       return null;
     }
 
+    public Transform GetCertainVariantObjectTransform(int index)
+    {
+      if (_variantObjects != null && _variantObjects.Length > 0)
+        return _variantObjects[index].transform;
+
+      return null;
+    }
+
     private IEnumerator DoChangeWinLoseGameStateWithDelay(bool win, float delay)
     {
       yield return new WaitForSeconds(delay);

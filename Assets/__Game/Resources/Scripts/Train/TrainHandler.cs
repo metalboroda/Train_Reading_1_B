@@ -87,7 +87,7 @@ namespace Assets.__Game.Resources.Scripts.Train
       _spawnedTutorialFinger = Instantiate(
         _tutorialFinger, startPosition, Quaternion.identity);
 
-      _spawnedTutorialFinger.transform.DOMove(_variantBoard.GetFirstVariantObjectTransform().position, 1.5f)
+      _spawnedTutorialFinger.transform.DOMove(_variantBoard.GetCertainVariantObjectTransform(1).position, 1.5f)
         .SetLoops(-1)
         .SetEase(Ease.InOutQuad);
     }
