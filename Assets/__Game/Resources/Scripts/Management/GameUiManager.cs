@@ -4,7 +4,6 @@ using Assets.__Game.Resources.Scripts.LevelItem;
 using Assets.__Game.Resources.Scripts.Settings;
 using Assets.__Game.Scripts.Enums;
 using Assets.__Game.Scripts.Infrastructure;
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -66,10 +65,7 @@ namespace Assets.__Game.Resources.Scripts.Management
     [SerializeField] private GameObject _pauseAudioOffImage;
 
     private readonly List<GameObject> _canvases = new();
-    private int _currentScore;
-    private int _overallScore;
     private int _currentLoses;
-    private bool _canAnimate = false;
 
     private GameBootstrapper _gameBootstrapper;
     private Reward _reward;
@@ -77,8 +73,6 @@ namespace Assets.__Game.Resources.Scripts.Management
 
     private EventBinding<EventStructs.ComponentEvent<GameBootstrapper>> _componentEvent;
     private EventBinding<EventStructs.StateChanged> _stateChanged;
-    private EventBinding<EventStructs.BalloonSpawnerEvent> _balloonSpawnerEvent;
-    private EventBinding<EventStructs.BalloonReceiveEvent> _balloonReceivedEvent;
     private EventBinding<EventStructs.VariantsAssignedEvent> _variantsAssignedEvent;
     private EventBinding<EventStructs.TimerEvent> _timerEvent;
 
@@ -94,9 +88,6 @@ namespace Assets.__Game.Resources.Scripts.Management
     {
       _componentEvent = new EventBinding<EventStructs.ComponentEvent<GameBootstrapper>>(SetBootstrapper);
       _stateChanged = new EventBinding<EventStructs.StateChanged>(SwitchCanvasesDependsOnState);
-      _balloonSpawnerEvent = new EventBinding<EventStructs.BalloonSpawnerEvent>(SetOverallScore);
-      _balloonReceivedEvent = new EventBinding<EventStructs.BalloonReceiveEvent>(DisplayScore);
-      _balloonReceivedEvent = new EventBinding<EventStructs.BalloonReceiveEvent>(IconScaleAnimation);
       _variantsAssignedEvent = new EventBinding<EventStructs.VariantsAssignedEvent>(DisplayLevelCounter);
       _timerEvent = new EventBinding<EventStructs.TimerEvent>(DisplayTimer);
     }
@@ -105,9 +96,6 @@ namespace Assets.__Game.Resources.Scripts.Management
     {
       _componentEvent.Remove(SetBootstrapper);
       _stateChanged.Remove(SwitchCanvasesDependsOnState);
-      _balloonSpawnerEvent.Remove(SetOverallScore);
-      _balloonReceivedEvent.Remove(DisplayScore);
-      _balloonReceivedEvent.Remove(IconScaleAnimation);
       _variantsAssignedEvent.Remove(DisplayLevelCounter);
       _timerEvent.Remove(DisplayTimer);
     }
@@ -117,7 +105,6 @@ namespace Assets.__Game.Resources.Scripts.Management
       SubscribeButtons();
       AddCanvasesToList();
       UpdateAudioButtonVisuals();
-      StartCoroutine(DoCanAnimate());
     }
 
     private void LoadSettings()
@@ -205,26 +192,6 @@ namespace Assets.__Game.Resources.Scripts.Management
       _gameBootstrapper = componentEvent.Data;
     }
 
-    private void SetOverallScore(EventStructs.BalloonSpawnerEvent balloonSpawnerEvent)
-    {
-      _overallScore = balloonSpawnerEvent.CorrectBalloonCount;
-      _gameScoreCounterTxt.text = $"{_currentScore} / {_overallScore}";
-    }
-
-    private void DisplayScore(EventStructs.BalloonReceiveEvent balloonReceivedEvent)
-    {
-      if (balloonReceivedEvent.CorrectBalloon == true)
-      {
-        _currentScore += balloonReceivedEvent.CorrectBalloonIncrement;
-        _gameScoreCounterTxt.text = $"{_currentScore} / {_overallScore}";
-      }
-      else
-      {
-        _currentLoses += balloonReceivedEvent.IncorrectBalloonIncrement;
-        _gameLoseCounterTxt.text = $"{_currentLoses}";
-      }
-    }
-
     private void DisplayLevelCounter(EventStructs.VariantsAssignedEvent variantsAssignedEvent)
     {
       if (_gameSettings.OverallLevelIndex == 0)
@@ -236,29 +203,6 @@ namespace Assets.__Game.Resources.Scripts.Management
         _pauseLevelCounterText.text = $"НАВЧАЛЬНИЙ РІВЕНЬ";
       else
         _pauseLevelCounterText.text = $"РІВЕНЬ {_gameSettings.OverallLevelIndex}";
-    }
-
-    private void IconScaleAnimation(EventStructs.BalloonReceiveEvent balloonReceivedEvent)
-    {
-      if (_canAnimate == false) return;
-
-      Sequence seq = DOTween.Sequence();
-      Transform icon;
-
-      if (balloonReceivedEvent.CorrectBalloon == true)
-        icon = _gameStarImage.transform;
-      else
-        icon = _gameAngryFaceImage.transform;
-
-      seq.Append(icon.DOScale(_gameImageeIn, _gameImageAnimDuration));
-      seq.Append(icon.DOScale(1f, _gameImageAnimDuration));
-    }
-
-    private IEnumerator DoCanAnimate()
-    {
-      yield return new WaitForSeconds(1);
-
-      _canAnimate = true;
     }
 
     private void SwitchCanvasesDependsOnState(EventStructs.StateChanged state)
