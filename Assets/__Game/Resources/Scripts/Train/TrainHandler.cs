@@ -71,6 +71,7 @@ namespace Assets.__Game.Resources.Scripts.Train
           spawnedCart.AnswerPlacePoint.rotation, spawnedCart.AnswerPlacePoint);
 
         spawnedAnswer.SetSpriteAndImage(_answers[i].AnswerText);
+        spawnedAnswer.SetAudioCLip(_answers[i].AnswerAudioClip);
       }
     }
 

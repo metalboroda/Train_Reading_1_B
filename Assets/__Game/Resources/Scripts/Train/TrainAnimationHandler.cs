@@ -38,7 +38,7 @@ namespace Assets.__Game.Resources.Scripts.Train
     {
       EventBus<EventStructs.TrainMovementEvent>.Raise(new EventStructs.TrainMovementEvent { IsMoving = true });
 
-      transform.DOMove(_trainFirstPoint, _trainMovementSpeed)
+      transform.DOLocalMove(_trainFirstPoint, _trainMovementSpeed)
         .SetSpeedBased(true)
         .OnComplete(() =>
         {
@@ -52,7 +52,7 @@ namespace Assets.__Game.Resources.Scripts.Train
     {
       EventBus<EventStructs.TrainMovementEvent>.Raise(new EventStructs.TrainMovementEvent { IsMoving = true });
 
-      transform.DOMove(_trainSecondPoint, _trainMovementSpeed * 1.5f)
+      transform.DOLocalMove(_trainSecondPoint, _trainMovementSpeed * 1.5f)
         .SetSpeedBased(true)
         .OnComplete(() =>
         {

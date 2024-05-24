@@ -11,15 +11,19 @@ namespace Assets.__Game.Resources.Scripts.Train
 
     public string AnswerText { get; private set; }
 
+    private AudioClip _wordAudioCLip;
+
     private Vector3 _initLocalPosition;
     private Vector3 _offset;
     private bool _placed = false;
 
     private Camera _mainCamera;
+    private AudioSource _audioSource;
 
     void Awake()
     {
       _mainCamera = Camera.main;
+      _audioSource = GetComponent<AudioSource>();
 
       _initLocalPosition = transform.localPosition;
     }
@@ -43,10 +47,17 @@ namespace Assets.__Game.Resources.Scripts.Train
       _textMesh.text = AnswerText;
     }
 
+    public void SetAudioCLip(AudioClip audioClip)
+    {
+      _wordAudioCLip = audioClip;
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
       _offset = transform.position - _mainCamera.ScreenToWorldPoint(
         new Vector3(eventData.position.x, eventData.position.y, transform.position.z));
+
+      _audioSource.PlayOneShot(_wordAudioCLip);
     }
 
     public void OnDrag(PointerEventData eventData)

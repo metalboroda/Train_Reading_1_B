@@ -309,7 +309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688607484703622301, guid: a454cc821da5e1b419971d0230763865, type: 3}
       propertyPath: _maxTime
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5381777621544629463, guid: a454cc821da5e1b419971d0230763865, type: 3}
       propertyPath: m_text
@@ -359,6 +359,26 @@ PrefabInstance:
       propertyPath: _answers.Array.data[3].<AnswerSprite>k__BackingField
       value: 
       objectReference: {fileID: 21300000, guid: 4e4ecdd337254bf44bfe475dd36e6a0a, type: 3}
+    - target: {fileID: 5383494424573651556, guid: a454cc821da5e1b419971d0230763865, type: 3}
+      propertyPath: _answers.Array.data[0].<AnswerAudioClip>k__BackingField
+      value: 
+      objectReference: {fileID: 8300000, guid: 2a7d49b571d35a74f92474c5b1851704, type: 3}
+    - target: {fileID: 5383494424573651556, guid: a454cc821da5e1b419971d0230763865, type: 3}
+      propertyPath: _answers.Array.data[1].<AnswerAudioClip>k__BackingField
+      value: 
+      objectReference: {fileID: 8300000, guid: 71e6c167c95579244b4a51b3f5431931, type: 3}
+    - target: {fileID: 5383494424573651556, guid: a454cc821da5e1b419971d0230763865, type: 3}
+      propertyPath: _answers.Array.data[2].<AnswerAudioClip>k__BackingField
+      value: 
+      objectReference: {fileID: 8300000, guid: 7ee34c234828f4f49ae9434ae95ea4ab, type: 3}
+    - target: {fileID: 5383494424573651556, guid: a454cc821da5e1b419971d0230763865, type: 3}
+      propertyPath: _answers.Array.data[3].<AnswerAudioClip>k__BackingField
+      value: 
+      objectReference: {fileID: 8300000, guid: fe4b58515f9467d468e6cbf80f924582, type: 3}
+    - target: {fileID: 5383494424573651556, guid: a454cc821da5e1b419971d0230763865, type: 3}
+      propertyPath: _answers.Array.data[4].<AnswerAudioClip>k__BackingField
+      value: 
+      objectReference: {fileID: 8300000, guid: 2a7d49b571d35a74f92474c5b1851704, type: 3}
     - target: {fileID: 7317661472858753460, guid: a454cc821da5e1b419971d0230763865, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.375

@@ -7,5 +7,7 @@ namespace Assets.__Game.Resources.Scripts.Train
   public class CartItem
   {
     [field: SerializeField] public string AnswerText { get; private set; }
+    [field: Space]
+    [field: SerializeField] public AudioClip AnswerAudioClip { get; private set; }
   }
 }

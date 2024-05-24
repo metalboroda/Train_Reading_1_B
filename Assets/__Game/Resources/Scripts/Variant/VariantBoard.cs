@@ -16,16 +16,20 @@ namespace Assets.__Game.Resources.Scripts.Variant
     [SerializeField] private VariantItem[] _variantItems;
     [Space]
     [SerializeField] private Variant[] _variantObjects;
+    [Header("Stupor param's")]
+    [SerializeField] private float _stuporTimeoutSeconds = 10f;
 
     private int _emptyVariantsCounter;
     private int _overallAnswersCounter;
     private int _correctAnswersCounter;
     private int _incorrectAnswerCounter;
+    private Coroutine _stuporTimeoutRoutine;
 
     private GameBootstrapper _gameBootstrapper;
 
     private EventBinding<EventStructs.CorrectAnswerEvent> _correctAnswerEvent;
     private EventBinding<EventStructs.IncorrectCancelEvent> _incorrectAnswerEvent;
+    private EventBinding<EventStructs.StateChanged> _stateChangedEvent;
 
     private void Awake()
     {
@@ -36,12 +40,14 @@ namespace Assets.__Game.Resources.Scripts.Variant
     {
       _correctAnswerEvent = new EventBinding<EventStructs.CorrectAnswerEvent>(ReceiveCorrectAnswer);
       _incorrectAnswerEvent = new EventBinding<EventStructs.IncorrectCancelEvent>(ReceiveIncorrectAnswer);
+      _stateChangedEvent = new EventBinding<EventStructs.StateChanged>(StuporTimerDependsOnState);
     }
 
     private void OnDisable()
     {
       _correctAnswerEvent.Remove(ReceiveCorrectAnswer);
       _incorrectAnswerEvent.Remove(ReceiveIncorrectAnswer);
+      _stateChangedEvent.Remove(StuporTimerDependsOnState);
     }
 
     private void Start()
@@ -55,7 +61,7 @@ namespace Assets.__Game.Resources.Scripts.Variant
 
     private void Update()
     {
-      if (Application.isPlaying == false)
+      if (Application.isPlaying == false && _allowEdit)
       {
         RearrangeChildren();
       }
@@ -110,6 +116,8 @@ namespace Assets.__Game.Resources.Scripts.Variant
 
     private void ReceiveCorrectAnswer(EventStructs.CorrectAnswerEvent correctAnswerEvent)
     {
+      ResetAndStartStuporTimer();
+
       _overallAnswersCounter++;
       _correctAnswersCounter++;
 
@@ -128,6 +136,8 @@ namespace Assets.__Game.Resources.Scripts.Variant
 
     private void ReceiveIncorrectAnswer(EventStructs.IncorrectCancelEvent incorrectCancelEvent)
     {
+      ResetAndStartStuporTimer();
+
       _overallAnswersCounter++;
       _incorrectAnswerCounter++;
 
@@ -184,6 +194,34 @@ namespace Assets.__Game.Resources.Scripts.Variant
         _gameBootstrapper.StateMachine.ChangeState(new GameWinState(_gameBootstrapper));
       else
         _gameBootstrapper.StateMachine.ChangeState(new GameLoseState(_gameBootstrapper));
+    }
+
+    private void StuporTimerDependsOnState(EventStructs.StateChanged stateChanged)
+    {
+      if (stateChanged.State is GameplayState)
+        ResetAndStartStuporTimer();
+      else
+      {
+        if (_stuporTimeoutRoutine != null)
+          StopCoroutine(_stuporTimeoutRoutine);
+      }
+    }
+
+    private void ResetAndStartStuporTimer()
+    {
+      if (_stuporTimeoutRoutine != null)
+        StopCoroutine(_stuporTimeoutRoutine);
+
+      _stuporTimeoutRoutine = StartCoroutine(DoStuporTimerCoroutine());
+    }
+
+    private IEnumerator DoStuporTimerCoroutine()
+    {
+      yield return new WaitForSeconds(_stuporTimeoutSeconds);
+
+      EventBus<EventStructs.StuporEvent>.Raise(new EventStructs.StuporEvent());
+
+      ResetAndStartStuporTimer();
     }
   }
 }
