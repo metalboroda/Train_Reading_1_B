@@ -1,4 +1,5 @@
 using Assets.__Game.Scripts.Enums;
+using UnityEngine;
 
 namespace __Game.Resources.Scripts.EventBus
 {
@@ -33,6 +34,10 @@ namespace __Game.Resources.Scripts.EventBus
     public struct VariantsAssignedEvent : IEvent { }
     public struct CorrectAnswerEvent : IEvent { }
     public struct IncorrectCancelEvent : IEvent { }
+    public struct VariantAudioClickedEvent : IEvent
+    {
+      public AudioClip Clip;
+    }
     #endregion
 
     #region Game

@@ -383,6 +383,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1367007845665411825, guid: a454cc821da5e1b419971d0230763865, type: 3}
+      propertyPath: _levelWord
+      value: 
+      objectReference: {fileID: 8300000, guid: 29a3477861629c749a8b7893c56e86b1, type: 3}
     - target: {fileID: 3688607484703622301, guid: a454cc821da5e1b419971d0230763865, type: 3}
       propertyPath: _maxTime
       value: 15
@@ -463,6 +467,10 @@ PrefabInstance:
       propertyPath: _spacing
       value: 0.575
       objectReference: {fileID: 0}
+    - target: {fileID: 8958000384104972399, guid: a454cc821da5e1b419971d0230763865, type: 3}
+      propertyPath: _variantAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 29a3477861629c749a8b7893c56e86b1, type: 3}
     - target: {fileID: 8958000384104972399, guid: a454cc821da5e1b419971d0230763865, type: 3}
       propertyPath: _variantItems.Array.size
       value: 8

@@ -16,6 +16,8 @@ namespace Assets.__Game.Resources.Scripts.Variant
     [SerializeField] private VariantItem[] _variantItems;
     [Space]
     [SerializeField] private Variant[] _variantObjects;
+    [Header("Audio")]
+    [SerializeField] private AudioClip _variantAudio;
     [Header("Stupor param's")]
     [SerializeField] private float _stuporTimeoutSeconds = 10f;
 
@@ -125,8 +127,9 @@ namespace Assets.__Game.Resources.Scripts.Variant
       {
         EventBus<EventStructs.WinEvent>.Raise(new EventStructs.WinEvent());
         EventBus<EventStructs.LevelPointEvent>.Raise(new EventStructs.LevelPointEvent());
+        EventBus<EventStructs.VariantAudioClickedEvent>.Raise(new EventStructs.VariantAudioClickedEvent { Clip = _variantAudio });
 
-        StartCoroutine(DoChangeWinLoseGameStateWithDelay(true, 1.5f));
+        StartCoroutine(DoChangeWinLoseGameStateWithDelay(true, 2f));
 
         return;
       }
